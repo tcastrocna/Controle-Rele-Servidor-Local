@@ -1,0 +1,7 @@
+{
+    "port": "COM3",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
+    "board": "esp32:esp32:esp32doit-devkit-v1",
+    "programmer": "esp32:esptool",
+    "sketch": "controleRele-ServerLocal\\controleRele-ServerLocal.ino"
+}
