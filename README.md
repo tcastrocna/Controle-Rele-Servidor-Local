@@ -1,4 +1,4 @@
-# Controle Relé Servidor Local
+# Automacao Residencial Via Servidor Local
 
 Este é um projeto simples que permite o controle de equipamentos eletrônicos com módulo relé e chip esp32 através de um servidor local, onde é possivel ligar e desligar relés com um app web no celular ou desktop, e para isso é preciso ter uma rede wifi (Sem necessariamente ter acesso a intenet).
 
