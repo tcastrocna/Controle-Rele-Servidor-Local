@@ -6,8 +6,8 @@
 #define RELAY_PIN_1             18       //Relé Iluminação 1.
 #define RELAY_PIN_2             19       //Relé Iluminação 2.
 #define RELAY_PIN_3             23       //Relé Ventilador.
-#define BUTTON_RESET_WIFI       17       //Botão Reset rede WiFi.
-#define WIFI_LED                25       //Led indicador de rede.
+#define WIFI_LED                25       //Led indicador de rede Wifi
+#define BUTTON_RESET_WIFI       17       //Botão reset Wifi
 
 #define BAUD_RATE  9600
 
@@ -38,33 +38,33 @@ void appWebCliente() {
 
             //Controlar as entradas em Ligado e Desligado
             //Iluminação 1
-            if (header.indexOf("GET /iluminacao1/on") >= 0) {
+            if (header.indexOf("GET /rele1/on") >= 0) {
               Serial.println("Iluminação 1 Ligado");
               TEXT_STATE_1 = "ON";
               digitalWrite(RELAY_PIN_1, LOW);
-            } else if (header.indexOf("GET /iluminacao1/off") >= 0) {
+            } else if (header.indexOf("GET /rele1/off") >= 0) {
               Serial.println("Iluminação 1 Desligado");
               TEXT_STATE_1 = "OFF";
               digitalWrite(RELAY_PIN_1, HIGH);
             }
 
             //Iluminação 2
-            else if (header.indexOf("GET /iluminacao2/on") >= 0) {
+            else if (header.indexOf("GET /rele2/on") >= 0) {
               Serial.println("Iluminação 2 Ligado");
               TEXT_STATE_2 = "ON";
               digitalWrite(RELAY_PIN_2, LOW);
-            } else if (header.indexOf("GET /iluminacao2/off") >= 0) {
+            } else if (header.indexOf("GET /rele2/off") >= 0) {
               Serial.println("Iluminação 2 Desligado");
               TEXT_STATE_2 = "OFF";
               digitalWrite(RELAY_PIN_2, HIGH);
             }
 
             //Ventilador
-            else if (header.indexOf("GET /ventilador/on") >= 0) {
+            else if (header.indexOf("GET /rele3/on") >= 0) {
               Serial.println("Ventilador Ligado");
               TEXT_STATE_3 = "ON";
               digitalWrite(RELAY_PIN_3, LOW);
-            } else if (header.indexOf("GET /ventilador/off") >= 0) {
+            } else if (header.indexOf("GET /rele3/off") >= 0) {
               Serial.println("Ventilador Desligado");
               TEXT_STATE_3 = "OFF";
               digitalWrite(RELAY_PIN_3, HIGH);
@@ -95,25 +95,25 @@ void appWebCliente() {
             //Iluminação 1
             client.println("<h4>ILUMINACAO 1</h4>");
             if (TEXT_STATE_1 == "OFF") {
-              client.println("<p><a href=\"/iluminacao1/on\"><button class=\"button\">ON</button></a></p>");
+              client.println("<p><a href=\"/rele1/on\"><button class=\"button\">ON</button></a></p>");
             } else {
-              client.println("<p><a href=\"/iluminacao1/off\"><button class=\"button button2\">OFF</button></a></p>");
+              client.println("<p><a href=\"/rele1/off\"><button class=\"button button2\">OFF</button></a></p>");
             }
 
             //Iluminação 2
             client.println("<h4>ILUMINACAO 2</h4>");
             if (TEXT_STATE_2 == "OFF") {
-              client.println("<p><a href=\"/iluminacao2/on\"><button class=\"button\">ON</button></a></p>");
+              client.println("<p><a href=\"/rele2/on\"><button class=\"button\">ON</button></a></p>");
             } else {
-              client.println("<p><a href=\"/iluminacao2/off\"><button class=\"button button2\">OFF</button></a></p>");
+              client.println("<p><a href=\"/rele2/off\"><button class=\"button button2\">OFF</button></a></p>");
             }
 
             //Ventilador
             client.println("<h4>VENTILADOR</h4>");
             if (TEXT_STATE_3 == "OFF") {
-              client.println("<p><a href=\"/ventilador/on\"><button class=\"button\">ON</button></a></p>");
+              client.println("<p><a href=\"/rele3/on\"><button class=\"button\">ON</button></a></p>");
             } else {
-              client.println("<p><a href=\"/ventilador/off\"><button class=\"button button2\">OFF</button></a></p>");
+              client.println("<p><a href=\"/rele3/off\"><button class=\"button button2\">OFF</button></a></p>");
             }
 
             client.println("<h4>DESLIGAR  TODOS<h4>");
@@ -164,11 +164,24 @@ void setup() {
   digitalWrite(RELAY_PIN_2, HIGH);
   digitalWrite(RELAY_PIN_3, HIGH);
   digitalWrite(WIFI_LED, LOW);
-
 }
 
 //Loop Principal
 void loop() {
   mudarRede();
   appWebCliente();
+
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    //Serial.println("WiFi Não Conectado :();
+    digitalWrite(WIFI_LED, LOW);
+    delay(100);
+    digitalWrite(WIFI_LED, HIGH);
+    delay(100);
+  }
+  else
+  {
+    //Serial.println("WiFi Connected");
+    digitalWrite(WIFI_LED, HIGH);
+  }
 }
